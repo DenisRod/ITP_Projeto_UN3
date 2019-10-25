@@ -1,13 +1,19 @@
 #include <stdio.h>
 #include <string.h>
-#include<stdlib.h>
+#include <stdlib.h>
 
+/*typedef struct image{
+	int altura;
+	int largura;
+	int dimensoes_imagem[2];
+	int cont_dimensoes;
+}image; */
 
 int main (){
 
 	FILE *arquivo;
 	FILE *arquivo_saida;
-	int i =0,contador_colunas=0,dimensoes_imagem[2],flag_imagem=0,cont_dimensoes=0;
+	int i =0,j,dimensoes_imagem[2],flag_imagem=0,cont_dimensoes=0;
 	char c[10][200], *token;
 	arquivo=fopen("arquivo.txt","r+");
 	
@@ -16,19 +22,16 @@ int main (){
 	}
 	fclose(arquivo);
 	arquivo_saida = fopen("image.ppm","w+");
-	for(int j=0;j<1;j++){
-		printf("linha %d = %s",j,c[j]);
-	}
-	for(int j=0;j<2;j++){
+	for(j=0;j<10;j++){
 		token = strtok(c[j]," ");
 		while(token != NULL){
 			if(strcmp(token,"image")==0){
-				contador_colunas++;
 				flag_imagem=1;
+				fprintf(arquivo_saida, "%s\n","P3");
 			}
 			else if (flag_imagem==1 && cont_dimensoes<2){
 				dimensoes_imagem[cont_dimensoes] = atoi(token);
-				printf ("%d",dimensoes_imagem[cont_dimensoes]);
+				fprintf(arquivo_saida, "%s ",token);
 				cont_dimensoes++;
 			}
 			else if (strcmp(token,"save")==0){

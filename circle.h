@@ -9,10 +9,10 @@ typedef struct circulo{
 	float raio;
 }circulo;
 
-void c_octante_supEsq(circulo octante);
-void c_octante_supDir(circulo octante);
-void c_octante_infEsq(circulo octante);
-void c_octante_infDir(circulo octante);
+void c_quadrante_supEsq(circulo quadrante);
+void c_quadrante_supDir(circulo quadrante);
+void c_quadrante_infEsq(circulo quadrante);
+void c_quadrante_infDir(circulo quadrante);
 
 
 #endif

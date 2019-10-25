@@ -1,7 +1,7 @@
 #include <circle.h>
 
-void c_octante_supEsq(circulo octante){
-	octante.x,octante.y,octante.raio;
+void c_quadrante_supEsq(circulo quadrante){
+	quadrante.x,quadrante.y,quadrante.raio;
 
 	
 }

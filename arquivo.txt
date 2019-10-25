@@ -1,2 +1,2 @@
-save arquivo
+image 300 400
 
