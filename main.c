@@ -39,9 +39,9 @@ int main (){
 				for(i=0; i<dimensoes_imagem[0];i++){
 					for(k=0;k<dimensoes_imagem[1];k++){
 					      static unsigned char color[3];
-					      color[0] = i % 256; 
-					      color[1] = k % 256; 
-					      color[2] = (i * k) % 256; 
+					      color[0] = i % 256; /*R*/
+					      color[1] = k % 256; /*G*/
+					      color[2] = (i * k) % 256;/*B*/ 
 					      (void) fwrite(color, 1, 3, arquivo_saida);
 					}
 				}
