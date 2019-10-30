@@ -13,7 +13,7 @@ int main (){
 
 	FILE *arquivo;
 	FILE *arquivo_saida;
-	int i =0,j,dimensoes_imagem[2],flag_imagem=0,cont_dimensoes=0;
+	int i =0,j,k,dimensoes_imagem[2],flag_imagem=0,cont_dimensoes=0;
 	char c[10][200], *token;
 	arquivo=fopen("arquivo.txt","r+");
 	
@@ -21,19 +21,32 @@ int main (){
 		i++;
 	}
 	fclose(arquivo);
-	arquivo_saida = fopen("image.ppm","w+");
+	arquivo_saida = fopen("image.ppm","wb");
 	for(j=0;j<10;j++){
 		token = strtok(c[j]," ");
 		while(token != NULL){
 			if(strcmp(token,"image")==0){
 				flag_imagem=1;
-				fprintf(arquivo_saida, "%s\n","P3");
+				fprintf(arquivo_saida, "%s","P6\n");
 			}
 			else if (flag_imagem==1 && cont_dimensoes<2){
 				dimensoes_imagem[cont_dimensoes] = atoi(token);
 				fprintf(arquivo_saida, "%s ",token);
 				cont_dimensoes++;
 			}
+			else if(cont_dimensoes==2){
+				fprintf(arquivo_saida,"%s","\n255\n");
+				for(i=0; i<dimensoes_imagem[0];i++){
+					for(k=0;k<dimensoes_imagem[1];k++){
+					      static unsigned char color[3];
+					      color[0] = i % 256; 
+					      color[1] = k % 256; 
+					      color[2] = (i * k) % 256; 
+					      (void) fwrite(color, 1, 3, arquivo_saida);
+					}
+				}
+			}
+
 			else if (strcmp(token,"save")==0){
 				if(flag_imagem == 0){
 					printf("Imagem nao criada!");
