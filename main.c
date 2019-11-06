@@ -52,6 +52,21 @@ int main (){
 					printf("Imagem nao criada!");
 				}
 			}
+			//Possíveis RETA E POLÍGONO
+			/*
+			else if (strcmp(token,"line")==0){
+				fscanf(arquivo, "line %s %s %s %s", &x1, &y1, &x2, &y2);
+			}
+			else if (strcmp(token,"polygon")==0){
+				fscanf(arquivo, "polygon %s ", &lados);
+				i=0;
+				while (i<(lados*2)){
+					fscanf(arquivo, "%s ",&vertice[i]);
+					i++;
+				}
+			}
+			*/
+			
 			
 			token = strtok(NULL, " ");
 		}
