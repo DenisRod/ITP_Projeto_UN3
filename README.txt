@@ -8,4 +8,12 @@ O que foi feito:
 	G- vai ser gerado em função do resto da divisão do k por 256;
 	B- vai ser gerado em função do resto da divisão de i vezes o k por 256;
 
+Checkpoint 2
+
+o que foi feito:
+- comando open para abrir um arquivo ppm para leitura;
+- comando line para coletar os pontos inicial e final da linha;
+- calculo da inclinação da linha;
+
+
 

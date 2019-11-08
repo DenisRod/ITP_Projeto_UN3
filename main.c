@@ -13,8 +13,10 @@ int main (){
 
 	FILE *arquivo;
 	FILE *arquivo_saida;
-	int i =0,j,k,dimensoes_imagem[2],flag_imagem=0,cont_dimensoes=0;
-	char c[10][200], *token;
+	FILE *arquivo_open;
+	int i =0,j,k,dimensoes_imagem[2],flag_imagem=0, flag_open=0,cont_dimensoes=0,cont_lines=0,flag_line=0;
+	int x1,y1,x2,y2,inclinacao;
+	char c[10][200],*token,*token_line,line[50];
 	arquivo=fopen("arquivo.txt","r+");
 	
 	while( fgets(c[i], 200, arquivo) != NULL){
@@ -39,9 +41,9 @@ int main (){
 				for(i=0; i<dimensoes_imagem[0];i++){
 					for(k=0;k<dimensoes_imagem[1];k++){
 					      static unsigned char color[3];
-					      color[0] = i % 256; /*R*/
-					      color[1] = k % 256; /*G*/
-					      color[2] = (i * k) % 256;/*B*/ 
+					      color[0] = i % 255; /*R*/
+					      color[1] = k % 255; /*G*/
+					      color[2] = (i * k) % 1;/*B*/ 
 					      (void) fwrite(color, 1, 3, arquivo_saida);
 					}
 				}
@@ -52,26 +54,54 @@ int main (){
 					printf("Imagem nao criada!");
 				}
 			}
-			//Possíveis RETA E POLÍGONO
-			/*
-			else if (strcmp(token,"line")==0){
-				fscanf(arquivo, "line %s %s %s %s", &x1, &y1, &x2, &y2);
+
+			else if (strcmp(token,"open")==0){
+				flag_open=1;
+
 			}
-			else if (strcmp(token,"polygon")==0){
+			else if (flag_open==1){
+				arquivo_open=fopen(token,"r+");
+				printf("Abrindo o arquivo %s\n",token);
+				flag_open=0;
+			}
+			else if(strcmp(token,"line")==0){
+				flag_line=1;
+				arquivo=fopen("arquivo.txt","r+");
+				int m=0;
+				while(fgets(line,500,arquivo)!=NULL){
+					if(line[0] == 'l' && line[1] =='i'){
+						printf("%s\n",strtok(line," "));
+						x1 = atoi(strtok(NULL, " "));
+						y1 = atoi(strtok(NULL, " "));
+						x2 = atoi(strtok(NULL, " "));
+						y2 = atoi(strtok(NULL, " "));
+						printf("ponto 1 = (%d,%d); ponto 2 = (%d,%d)\n",x1,y1,x2,y2);
+						inclinacao = (y2-y1)/(x2-x1);
+						printf("inclinacao=%d\n",inclinacao);
+					}
+					
+				}
+				fclose(arquivo);
+				
+			}
+
+			/*else if (strcmp(token,"line")==0){
+				fscanf(arquivo, "%c %c %c %c", &x1, &y1, &x2, &y2);
+				printf("%c %c %c %c \n", x1, y1, x2, y2);
+			}*/
+			/*else if (strcmp(token,"polygon")==0){
 				fscanf(arquivo, "polygon %s ", &lados);
 				i=0;
 				while (i<(lados*2)){
 					fscanf(arquivo, "%s ",&vertice[i]);
 					i++;
 				}
-			}
-			*/
-			
-			
+			}*/
 			token = strtok(NULL, " ");
 		}
 	}
 	fclose(arquivo_saida);
+	
 	
 	
 	return 0;
