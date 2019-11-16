@@ -1,2 +1,1 @@
-open image.ppm
-line 0 10 100 200
+image 25 25

@@ -2,7 +2,6 @@
 #ifdef circle_h
 #define circle_h
 
-int i,j;
 
 typedef struct circulo{
 	int x,y;

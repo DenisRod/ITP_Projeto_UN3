@@ -6,8 +6,6 @@
 typedef struct image{
 	int altura;
 	int largura;
-	int dimensoes_imagem[2];
-	int cont_dimensoes;
 }image;
 
 #endif
