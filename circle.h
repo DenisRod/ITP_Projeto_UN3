@@ -4,8 +4,7 @@
 
 
 typedef struct circulo{
-	int x,y;
-	float raio;
+	int x,y,raio;
 }circulo;
 
 void c_quadrante_supEsq(circulo quadrante);

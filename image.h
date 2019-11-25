@@ -6,6 +6,7 @@
 typedef struct image{
 	int altura;
 	int largura;
+	char aux[altura][largura];
 }image;
 
 #endif
