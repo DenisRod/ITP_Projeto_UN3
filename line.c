@@ -1,10 +1,5 @@
 #include "line.h"
 
-void c_quadrante_supEsq(circulo quadrante){
-	quadrante.x,quadrante.y,quadrante.raio;
-
-}
-
 line processa_linha(char c[20]){
 	/* Recebe um vetor char(linha do arquivo) vindo do main e faz a tratativa
 		por um delimitador de espaço, armazenando na struct line*/
@@ -20,40 +15,40 @@ line processa_linha(char c[20]){
 
 void line(Line l){
   
-  int dx, dy, dm, x, y;
-  dx=x1-x0;
-  dy=y1-y0;
-  x=x0;
-  y=y0;
-  dm=2*dy-dx;
-  if(x<x1){
-    while(x<x1){
-      if(dm>=0){
-        setPixel(x,y,color);
-        y=y+1;
-        dm=dm+2*dy-2*dx;
-      }
-      else{
-        setPixel(x,y,color);
-        dm=dm+2*dy;
-      }
-      x=x+1;
-    }
-  }
-  else{
-    while(x>x1){
-      if(dm>=0){
-        setPixel(x,y,color);
-        y=y+1;
-        dm=dm+2*dy-2*dx;
-      }
-      else{
-        setPixel(x,y,color);
-        dm=dm+2*dy;
-      }
-      x=x-1;
-    }
-  }
+	int dx, dy, dm, x, y;
+	dx=x1-x0;
+	dy=y1-y0;
+	x=x0;
+	y=y0;
+	dm=2*dy-dx;
+  	if(x<x1){
+		while(x<x1){
+      			if(dm>=0){
+        		setPixel(x,y,color);
+      			y=y+1;
+     			dm=dm+2*dy-2*dx;
+      			}
+      			else{
+        		setPixel(x,y,color);
+        		dm=dm+2*dy;
+      			}
+      		x=x+1;
+    		}
+  	}
+  	else{
+    		while(x>x1){
+      			if(dm>=0){
+        		setPixel(x,y,color);
+        		y=y+1;
+        		dm=dm+2*dy-2*dx;
+      			}
+      			else{
+        		setPixel(x,y,color);
+        		dm=dm+2*dy;
+      			}
+      			x=x-1;
+    		}
+  	}
 }
 
 void desenha_linha(image I,line L,color C){
