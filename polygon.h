@@ -8,6 +8,6 @@ typedef struct poligono{
 	int pontos[p];
 }poligono;
 
-void desenha_poligono(poligono poligono_desenho);
+void polygon(int n, point pt[n]);
 
 #endif

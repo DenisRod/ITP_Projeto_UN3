@@ -6,8 +6,7 @@ typedef struct retangulo{
 	int x,y,altura,largura;
 }retangulo;
 
-
-void desenha_retangulo(retangulo retangulo_desenho);
+retangulo processa_retangulo(char c[20]);
 
 
 #endif

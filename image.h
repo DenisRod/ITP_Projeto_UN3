@@ -9,4 +9,6 @@ typedef struct image{
 	char aux[altura][largura];
 }image;
 
+image processa_imagem(char c[20]);
+
 #endif

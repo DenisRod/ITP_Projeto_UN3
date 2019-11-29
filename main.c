@@ -1,108 +1,86 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "line.c"
+#include "line.h"
+#include "image.h"
+#include "image.c"
+#include "circle.h"
+#include "circle.c"
+#include "rect.h"
+#include "rect.c"
+#include "polygon.h"
+#include "polygon.c"
+#include "color.h"
+#include "color.c"
 
-/*typedef struct image{
-	int altura;
-	int largura;
-	int dimensoes_imagem[2];
-	int cont_dimensoes;
-}image; */
 
 int main (){
+//Declaração do arquivo de entrada
+FILE *arquivo;
+/*Declaração das variáveis utilizadas:
+char[][] - declarado para receber as linhas do arquivo 
+char *token - para armazenar o separador/delimitador
+int i para contar as linhas
+int j para o laço for
+Im,Li,Ci,Re e Co as structs de image, line, circulo, retangulo e cor*/
+char c[10][200],*token;
+int i=0,j;
+image Im;
+line Li;
+circulo Ci;
+retangulo Re;
+color Co;
+//abertura do arquivo de entrada para leitura
+arquivo=fopen("arquivo.txt","r+");
 
-	FILE *arquivo;
-	FILE *arquivo_saida;
-	FILE *arquivo_open;
-	int i =0,j,k,dimensoes_imagem[2],flag_imagem=0, flag_open=0,cont_dimensoes=0,cont_lines=0,flag_line=0;
-	int x1,y1,x2,y2,inclinacao;
-	char c[10][200],*token,*token_line,line[50];
-	arquivo=fopen("arquivo.txt","r+");
-	
-	while( fgets(c[i], 200, arquivo) != NULL){
-		i++;
+while( fgets(c[i], 200, arquivo) != NULL){
+	i++;
+} 
+int sequencia[i];
+/*
+atribuição numerica para cada função ser chamada na função de save
+image = 1;
+color = 2;
+clear = 3;
+rect = 4;
+circle = 5;
+polygon = 6;
+fill = 7;
+open = 8;
+line = 9;
+*/
+fclose(arquivo);
+
+/*Percorre todas as posições da matriz de char, onde cada posição
+representa uma linha do arquivo de entrada, e como no começo de cada
+nova linha o primeiro termo sempre será o comando a ser executado,
+realiza uma comparação das inicias para, assim, indentificá-lo, após isso
+chama a função para executar o processsamento da cadeia de caracteres*/
+for(j=0;j<i;j++){
+	if (c[j][0] == 'i' && c[j][1] == 'm'){
+		Im = processa_imagem(c[j]);
+		sequencia[j]=1;
 	}
-	fclose(arquivo);
-	arquivo_saida = fopen("image.ppm","wb");
-	for(j=0;j<10;j++){
-		token = strtok(c[j]," ");
-		while(token != NULL){
-			if(strcmp(token,"image")==0){
-				flag_imagem=1;
-				fprintf(arquivo_saida, "%s","P6\n");
-			}
-			else if (flag_imagem==1 && cont_dimensoes<2){
-				dimensoes_imagem[cont_dimensoes] = atoi(token);
-				fprintf(arquivo_saida, "%s ",token);
-				cont_dimensoes++;
-			}
-			else if(cont_dimensoes==2){
-				fprintf(arquivo_saida,"%s","\n255\n");
-				for(i=0; i<dimensoes_imagem[0];i++){
-					for(k=0;k<dimensoes_imagem[1];k++){
-					      static unsigned char color[3];
-					      color[0] = i % 255; /*R*/
-					      color[1] = k % 255; /*G*/
-					      color[2] = (i * k) % 1;/*B*/ 
-					      (void) fwrite(color, 1, 3, arquivo_saida);
-					}
-				}
-			}
-
-			else if (strcmp(token,"save")==0){
-				if(flag_imagem == 0){
-					printf("Imagem nao criada!");
-				}
-			}
-
-			else if (strcmp(token,"open")==0){
-				flag_open=1;
-
-			}
-			else if (flag_open==1){
-				arquivo_open=fopen(token,"r+");
-				printf("Abrindo o arquivo %s\n",token);
-				flag_open=0;
-			}
-			else if(strcmp(token,"line")==0){
-				flag_line=1;
-				arquivo=fopen("arquivo.txt","r+");
-				int m=0;
-				while(fgets(line,500,arquivo)!=NULL){
-					if(line[0] == 'l' && line[1] =='i'){
-						printf("%s\n",strtok(line," "));
-						x1 = atoi(strtok(NULL, " "));
-						y1 = atoi(strtok(NULL, " "));
-						x2 = atoi(strtok(NULL, " "));
-						y2 = atoi(strtok(NULL, " "));
-						printf("ponto 1 = (%d,%d); ponto 2 = (%d,%d)\n",x1,y1,x2,y2);
-						inclinacao = (y2-y1)/(x2-x1);
-						printf("inclinacao=%d\n",inclinacao);
-					}
-					
-				}
-				fclose(arquivo);
-				
-			}
-
-			/*else if (strcmp(token,"line")==0){
-				fscanf(arquivo, "%c %c %c %c", &x1, &y1, &x2, &y2);
-				printf("%c %c %c %c \n", x1, y1, x2, y2);
-			}*/
-			/*else if (strcmp(token,"polygon")==0){
-				fscanf(arquivo, "polygon %s ", &lados);
-				i=0;
-				while (i<(lados*2)){
-					fscanf(arquivo, "%s ",&vertice[i]);
-					i++;
-				}
-			}*/
-			token = strtok(NULL, " ");
-		}
+	else if (c[j][0] == 'c' && c[j][1] == 'o'){
+		Co = processa_cor(c[j]);
+		sequencia[j]=2;
 	}
-	fclose(arquivo_saida);
-	
-	
-	
-	return 0;
+	else if (c[j][0] == 'l' && c[j][1] == 'i'){
+		Li = processa_linha(c[j]);
+		sequencia[j]=9;
+	}
+	else if (c[j][0] == 'c' && c[j][1] == 'i'){
+		Ci = processa_circulo(c[j]);
+		sequencia[j]=5;
+	}
+	else if (c[j][0] == 'r' && c[j][1] == 'e'){
+		Re = processa_retangulo(c[j]);
+		sequencia[j]=4;
+	}
+	else if (c[j][0] == 's' && c[j][1] == 'a'){
+		processa_save(c[j],sequencia,i,Im,Co,Li,Ci,Re);
+	}
+}
+return 0;
 }
